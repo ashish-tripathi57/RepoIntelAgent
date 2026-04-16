@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+pytest.xml
+coverage.xml
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# guide
+guide-docs/
+.project-guide-rule-details
+gemeni.md
+

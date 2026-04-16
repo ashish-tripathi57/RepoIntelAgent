@@ -1,0 +1,10 @@
+langchain
+langgraph
+langchain-google-genai
+langchain-ollama
+tavily-python
+mcp
+python-dotenv
+pytest
+pytest-cov
+pytest-asyncio
