@@ -25,8 +25,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run the agent test suite (the eval gate)
-        run: pytest -q tests/
+        run: python -m pytest -q tests/
 
       # Uncomment to also enforce the >90% coverage bar you mention in the README:
       # - name: Enforce coverage
-      #   run: pytest -q --cov=. --cov-fail-under=90 tests/
+      #   run: python -m pytest -q --cov=. --cov-fail-under=90 tests/
