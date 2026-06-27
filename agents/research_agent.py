@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import asyncio
 from langchain_core.tools import StructuredTool
@@ -48,7 +49,7 @@ def _sanitize_tool_args(tool_name: str, args: dict) -> dict:
 
 async def research_node(state: dict) -> dict:
     server_params = StdioServerParameters(
-        command="/Users/ashishtripathi/Workspaces/FraudShield/venv/bin/python",
+        command=sys.executable,
         args=["/Users/ashishtripathi/Workspaces/RepoIntel/main.py", "--mode", "mcp"],
         env={**os.environ}
     )

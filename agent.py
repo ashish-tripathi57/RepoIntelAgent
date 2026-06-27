@@ -63,5 +63,23 @@ async def main():  # pragma: no cover
     print("\n--- FINAL REPORT Handoff ---")
     print(report)
 
+    # --- Optional: hand the verdict off to n8n (set WEBHOOK_URL to enable) ---------
+    webhook = os.environ.get("WEBHOOK_URL")
+    if webhook:
+        import json as _json
+        import urllib.request as _url
+        # advisory output may be a string (Qwen) or a list of blocks (Gemini) — flatten it
+        if isinstance(report, list):
+            report_text = "\n".join(b.get("text", "") if isinstance(b, dict) else str(b) for b in report)
+        else:
+            report_text = str(report)
+        verdict = "NO-GO" if "NO-GO" in report_text.upper() else ("GO" if "GO" in report_text.upper() else "REVIEW")
+        body = _json.dumps({"query": query, "verdict": verdict, "report": report_text}).encode()
+        try:
+            _url.urlopen(_url.Request(webhook, data=body, headers={"Content-Type": "application/json"}), timeout=30)
+            print(f"[n8n] verdict '{verdict}' sent to webhook")
+        except Exception as e:
+            print(f"[n8n] webhook post failed: {e}")
+
 if __name__ == "__main__":  # pragma: no cover
     asyncio.run(main())
