@@ -1,0 +1,32 @@
+name: agent-evals
+
+# The quality gate. Runs on every push and pull request. If a change breaks the
+# agent (a guardrail, the failover, the graph wiring), the test suite fails RED and
+# the PR is blocked. "RepoIntel guards your dependencies; this guards RepoIntel."
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run the agent test suite (the eval gate)
+        run: pytest -q tests/
+
+      # Uncomment to also enforce the >90% coverage bar you mention in the README:
+      # - name: Enforce coverage
+      #   run: pytest -q --cov=. --cov-fail-under=90 tests/
