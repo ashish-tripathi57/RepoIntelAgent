@@ -29,6 +29,7 @@ tavily_tool = StructuredTool.from_function(func=tavily_search, name="tavily_sear
 
 def _sanitize_tool_args(tool_name: str, args: dict) -> dict:
     """Fix hallucinated parameter names from LLMs that don't match the tool schema."""
+    return dict(args)  # <-- DEMO BREAK: guardrail disabled. DELETE THIS LINE to restore it.
     args = dict(args)
     if tool_name in ("get_repo_info", "list_open_issues", "analyze_repo_health"):
         # Fix common hallucinations: 'arg', 'repository', 'name' → 'repo'
